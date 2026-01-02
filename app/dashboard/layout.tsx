@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Sidebar from "@/components/layout/Sidebar";
 import MobileNav from "@/components/layout/MobileNav";
@@ -20,7 +21,16 @@ export default function DashboardLayout({
                     {/* Main Content */}
                     <main className="flex-1 w-full lg:ml-64">
                         <div className="w-full max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 pb-24 lg:pb-8">
-                            {children}
+                            <Suspense fallback={
+                                <div className="flex items-center justify-center min-h-[400px]">
+                                    <div className="text-center">
+                                        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                                        <p className="text-muted-foreground">Loading...</p>
+                                    </div>
+                                </div>
+                            }>
+                                {children}
+                            </Suspense>
                         </div>
                     </main>
 
