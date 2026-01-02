@@ -1,13 +1,23 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { useReports, Period } from "@/hooks/useReports";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { Calendar, TrendingUp, TrendingDown, DollarSign, Activity } from "lucide-react";
-import IncomeExpenseChart from "@/components/charts/IncomeExpenseChart";
-import CategoryPieChart from "@/components/charts/CategoryPieChart";
+
+// Dynamic imports to prevent SSR issues with Recharts
+const IncomeExpenseChart = dynamic(() => import("@/components/charts/IncomeExpenseChart"), {
+    ssr: false,
+    loading: () => <div className="h-[350px] flex items-center justify-center text-muted-foreground">Loading chart...</div>
+});
+
+const CategoryPieChart = dynamic(() => import("@/components/charts/CategoryPieChart"), {
+    ssr: false,
+    loading: () => <div className="h-[350px] flex items-center justify-center text-muted-foreground">Loading chart...</div>
+});
 
 export default function ReportsPage() {
     const [period, setPeriod] = useState<Period>("month");
